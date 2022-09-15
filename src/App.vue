@@ -15,7 +15,10 @@
       </form>
 
       <div class="todoContainer" v-for="data in todos" :key="data.id">
-        <li class="list">{{ data }}</li>
+        <textarea v-if="visible" class="editarea" :value="data" />
+        <li v-if="!visible" class="list">{{ data }}</li>
+        <button @click="updateTodo(data)">update</button>
+        <button class="listBtn" @click="deleteTodo(data)">delete</button>
       </div>
     </div>
   </div>
@@ -25,19 +28,62 @@
 export default {
   name: "App",
   components: {},
+  mounted() {
+    if (localStorage.getItem("mytodos") != null) {
+      const locasSTG = localStorage.getItem("mytodos");
+      const parserList = JSON.parse(locasSTG);
+      this.todos = parserList;
+    }
+  },
   data() {
     return {
       todos: [],
       content: "",
+      visible: false,
     };
   },
   methods: {
     addTodo() {
       if (this.content == "") {
         alert("값을 입력하세요");
+      } else if (localStorage.getItem("mytodos") == null) {
+        console.log("비었음");
+        this.todos.push(this.content);
+        const a = [this.content];
+        localStorage.setItem("mytodos", JSON.stringify(a));
+        this.content = "";
       } else {
         this.todos.push(this.content);
+        const b = localStorage.getItem("mytodos");
+        const c = JSON.parse(b);
+        const a = [...c, this.content];
+        console.log(a);
+        localStorage.setItem("mytodos", JSON.stringify(a));
         this.content = "";
+      }
+    },
+    deleteTodo(value) {
+      const storage = localStorage.getItem("mytodos");
+      const list = JSON.parse(storage);
+
+      for (let i = 0; i < list.length; i++) {
+        if (list[i] == value) {
+          list.splice(i, 1);
+          this.todos.splice(i, 1);
+          localStorage.setItem("mytodos", JSON.stringify(list));
+
+          break;
+        }
+      }
+    },
+    updateTodo(value) {
+      console.log("check update todo", value);
+      this.visible = !this.visible;
+      for (let i = 0; this.todos.length; i++) {
+        if (this.todos[i] == value) {
+          console.log("current");
+          break;
+        }
       }
     },
   },
@@ -80,6 +126,7 @@ export default {
 
 .todolist {
   display: flex;
+  position: relative;
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
@@ -90,8 +137,12 @@ export default {
 }
 
 .todoContainer {
+  display: flex;
+
   box-sizing: border-box;
+
   background: white;
+  justify-content: center;
   text-align: center;
   padding: 1rem;
   margin: 0.5rem 0;
@@ -101,7 +152,12 @@ export default {
 }
 
 .list {
+  width: 100%;
 }
+
+.listBtn {
+}
+
 body {
   margin: 0px;
 }
