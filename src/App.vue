@@ -15,9 +15,15 @@
       </form>
 
       <div class="todoContainer" v-for="data in todos" :key="data.id">
-        <textarea v-if="visible" class="editarea" :value="data" />
+        <textarea
+          type="text"
+          v-if="visible"
+          :value="data"
+          @input="inputdata($event)"
+        />
         <li v-if="!visible" class="list">{{ data }}</li>
-        <button @click="updateTodo(data)">update</button>
+        <button v-if="visible" @click="submitTodo(data)">sumit</button>
+        <button v-if="!visible" @click="updateTodo(data)">update</button>
         <button class="listBtn" @click="deleteTodo(data)">delete</button>
       </div>
     </div>
@@ -39,6 +45,7 @@ export default {
     return {
       todos: [],
       content: "",
+      updateContent: "",
       visible: false,
     };
   },
@@ -79,12 +86,22 @@ export default {
     updateTodo(value) {
       console.log("check update todo", value);
       this.visible = !this.visible;
+    },
+    inputdata(value) {
+      this.updateContent = value.target.value;
+    },
+    submitTodo(value) {
+      console.log(value);
       for (let i = 0; this.todos.length; i++) {
         if (this.todos[i] == value) {
+          localStorage.clear();
           console.log("current");
+          this.todos[i] = this.updateContent;
+          localStorage.setItem("mytodos", JSON.stringify(this.todos));
           break;
         }
       }
+      this.visible = !this.visible;
     },
   },
 };
@@ -154,10 +171,6 @@ export default {
 .list {
   width: 100%;
 }
-
-.listBtn {
-}
-
 body {
   margin: 0px;
 }
