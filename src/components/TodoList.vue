@@ -88,4 +88,12 @@ export default {
 .list {
   width: 100%;
 }
+
+li {
+  list-style: none;
+}
+
+.listBtn:hover {
+  background: red;
+}
 </style>

@@ -43,12 +43,27 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
 .main {
   background: url("./assets/bg.svg");
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.todolist {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 0 10rem;
   align-items: center;
 }
 

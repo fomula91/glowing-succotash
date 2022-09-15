@@ -37,18 +37,15 @@ export default {
       if (this.content == "") {
         alert("값을 입력하세요");
       } else if (localStorage.getItem("mytodos") == null) {
-        console.log("비었음");
         this.todos.push(this.content);
-        const a = [this.content];
-        localStorage.setItem("mytodos", JSON.stringify(a));
+        const firstContent = [this.content];
+        localStorage.setItem("mytodos", JSON.stringify(firstContent));
         this.content = "";
       } else {
         this.todos.push(this.content);
-        const b = localStorage.getItem("mytodos");
-        const c = JSON.parse(b);
-        const a = [...c, this.content];
-        console.log(a);
-        localStorage.setItem("mytodos", JSON.stringify(a));
+        const getItem = localStorage.getItem("mytodos");
+        const contentArr = [...JSON.parse(getItem), this.content];
+        localStorage.setItem("mytodos", JSON.stringify(contentArr));
         this.content = "";
       }
       this.$emit("updateTodo", this.todos);
