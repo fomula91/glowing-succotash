@@ -1,107 +1,42 @@
 <template>
   <div class="main">
-    <img class="img" src="./assets/logo.png" alt="todo" />
-    <p>My Todo App</p>
+    <Header />
     <div class="todolist">
-      <form class="textBox">
-        <textarea
-          class="text"
-          type="text"
-          placeholder="입력해주세요"
-          v-model="content"
-        />
-
-        <button type="submit" @click.prevent="addTodo">add todolist</button>
-      </form>
-
-      <div class="todoContainer" v-for="data in todos" :key="data.id">
-        <textarea
-          type="text"
-          v-if="visible"
-          :value="data"
-          @input="inputdata($event)"
-        />
-        <li v-if="!visible" class="list">{{ data }}</li>
-        <button v-if="visible" @click="submitTodo(data)">sumit</button>
-        <button v-if="!visible" @click="updateTodo(data)">update</button>
-        <button class="listBtn" @click="deleteTodo(data)">delete</button>
-      </div>
+      <InputComponent :todo-list="todoList" @updateTodo="todoUpdate" />
+      <List />
     </div>
   </div>
 </template>
 
 <script>
+import Header from "./components/Header.vue";
+import InputComponent from "./components/TodoInput.vue";
+import List from "./components/TodoList.vue";
 export default {
   name: "App",
-  components: {},
+  components: {
+    Header,
+    InputComponent,
+    List,
+  },
   mounted() {
     if (localStorage.getItem("mytodos") != null) {
       const locasSTG = localStorage.getItem("mytodos");
       const parserList = JSON.parse(locasSTG);
-      this.todos = parserList;
+      this.todoList = parserList;
     }
   },
   data() {
     return {
-      todos: [],
-      content: "",
+      todoList: [],
       updateContent: "",
       visible: false,
     };
   },
   methods: {
-    addTodo() {
-      if (this.content == "") {
-        alert("값을 입력하세요");
-      } else if (localStorage.getItem("mytodos") == null) {
-        console.log("비었음");
-        this.todos.push(this.content);
-        const a = [this.content];
-        localStorage.setItem("mytodos", JSON.stringify(a));
-        this.content = "";
-      } else {
-        this.todos.push(this.content);
-        const b = localStorage.getItem("mytodos");
-        const c = JSON.parse(b);
-        const a = [...c, this.content];
-        console.log(a);
-        localStorage.setItem("mytodos", JSON.stringify(a));
-        this.content = "";
-      }
-    },
-    deleteTodo(value) {
-      const storage = localStorage.getItem("mytodos");
-      const list = JSON.parse(storage);
-
-      for (let i = 0; i < list.length; i++) {
-        if (list[i] == value) {
-          list.splice(i, 1);
-          this.todos.splice(i, 1);
-          localStorage.setItem("mytodos", JSON.stringify(list));
-
-          break;
-        }
-      }
-    },
-    updateTodo(value) {
-      console.log("check update todo", value);
-      this.visible = !this.visible;
-    },
-    inputdata(value) {
-      this.updateContent = value.target.value;
-    },
-    submitTodo(value) {
-      console.log(value);
-      for (let i = 0; this.todos.length; i++) {
-        if (this.todos[i] == value) {
-          localStorage.clear();
-          console.log("current");
-          this.todos[i] = this.updateContent;
-          localStorage.setItem("mytodos", JSON.stringify(this.todos));
-          break;
-        }
-      }
-      this.visible = !this.visible;
+    todoUpdate(values) {
+      console.log(values);
+      this.todoList = values;
     },
   },
 };
@@ -109,7 +44,7 @@ export default {
 
 <style>
 .main {
-  background: skyblue;
+  background: url("./assets/bg.svg");
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -117,60 +52,6 @@ export default {
   align-items: center;
 }
 
-.img {
-  width: 15rem;
-  height: 10rem;
-}
-
-.textBox {
-  display: flex;
-  box-sizing: border-box;
-
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 2px 4px 3px 0px;
-
-  width: 100%;
-  height: 5rem;
-  padding: 1rem;
-}
-.text {
-  width: 100%;
-  resize: none;
-  border: none;
-  outline: none;
-}
-
-.todolist {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100vh;
-  padding: 0 10rem;
-  background: greenyellow;
-  align-items: center;
-}
-
-.todoContainer {
-  display: flex;
-
-  box-sizing: border-box;
-
-  background: white;
-  justify-content: center;
-  text-align: center;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  width: 100%;
-  border-radius: 1rem;
-  box-shadow: 2px 4px 3px 0px;
-}
-
-.list {
-  width: 100%;
-}
 body {
   margin: 0px;
 }
