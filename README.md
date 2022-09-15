@@ -1,24 +1,10 @@
-# todolist
+# VUE TODO APP
 
-## Project setup
-```
-yarn install
-```
+## Project Preview
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+[Vue-todo-app](https://vue-todo-app-f50e7.web.app/)
 
-### Compiles and minifies for production
 ```
-yarn build
+vue3
+localStorage
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
