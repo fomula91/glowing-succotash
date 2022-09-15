@@ -81,6 +81,8 @@ export default {
   padding: 1rem;
   margin: 0.5rem 0;
   width: 100%;
+  min-width: 12rem;
+
   border-radius: 1rem;
   box-shadow: 2px 4px 3px 0px;
 }

@@ -63,7 +63,7 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
-  padding: 0 10rem;
+  padding: 0 35rem;
   align-items: center;
 }
 

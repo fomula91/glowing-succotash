@@ -58,14 +58,14 @@ export default {
 .textBox {
   display: flex;
   box-sizing: border-box;
-
   background: white;
   border-radius: 1rem;
   box-shadow: 2px 4px 3px 0px;
-
   width: 100%;
+  min-width: 12rem;
   height: 5rem;
   padding: 1rem;
+  margin: 0 0 1rem 0;
 }
 
 .text {
