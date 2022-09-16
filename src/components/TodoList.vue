@@ -3,14 +3,26 @@
   <div class="todoContainer" v-for="(data, index) in todoList" :key="index">
     <textarea
       type="text"
-      v-if="visible"
+      v-if="this.selectTodo === index ? true : false"
       :value="data"
       @input="inputdata($event)"
     />
+    <p v-if="this.selectTodo === index ? false : true" class="list">
+      {{ data }}
+    </p>
 
-    <li v-if="!visible" class="list">{{ data }}</li>
-    <button v-if="visible" @click="submitTodo(data)">sumit</button>
-    <button v-if="!visible" @click="updateTodo(data, index)">update</button>
+    <button
+      v-if="this.selectTodo === index ? true : false"
+      @click="submitTodo(index)"
+    >
+      sumit
+    </button>
+    <button
+      v-if="this.selectTodo === index ? false : true"
+      @click="updateTodo(index)"
+    >
+      update
+    </button>
     <button @click="deleteTodo(index)">delete</button>
   </div>
 </template>
@@ -26,33 +38,23 @@ export default {
   },
   data() {
     return {
-      visible: false,
+      selectTodo: null,
+      content: "",
     };
   },
   methods: {
     deleteTodo(index) {
       this.$emit("deleteTodo", index);
     },
-    updateTodo(value, index) {
-      console.log(index);
-      console.log("check update todo", value);
-      this.visible = !this.visible;
+    updateTodo(index) {
+      this.selectTodo = index;
     },
     inputdata(value) {
-      this.updateContent = value.target.value;
+      this.content = value.target.value;
     },
-    submitTodo(value) {
-      console.log(value);
-      for (let i = 0; this.todos.length; i++) {
-        if (this.todos[i] == value) {
-          localStorage.clear();
-          console.log("current");
-          this.todos[i] = this.updateContent;
-          localStorage.setItem("mytodos", JSON.stringify(this.todos));
-          break;
-        }
-      }
-      this.visible = !this.visible;
+    submitTodo(index) {
+      this.$emit("updateTodo", [index, this.content]);
+      this.selectTodo = null;
     },
   },
 };

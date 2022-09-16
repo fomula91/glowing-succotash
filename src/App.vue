@@ -4,7 +4,11 @@
     <Header />
     <div class="todolist">
       <InputComponent @updateContent="todoUpdate" />
-      <List :todoList="todoList" @deleteTodo="delTodo" />
+      <List
+        :todoList="todoList"
+        @deleteTodo="delTodo"
+        @updateTodo="updateTodo"
+      />
     </div>
   </div>
 </template>
@@ -35,6 +39,11 @@ export default {
     }
   },
   methods: {
+    updateTodo(value) {
+      const [index, content] = [...value];
+      this.todoList.splice(index, 1, content);
+      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+    },
     todoUpdate(value) {
       this.todoList.push(value);
       localStorage.setItem("mytodos", JSON.stringify(this.todoList));

@@ -23,6 +23,7 @@ export default {
   methods: {
     addTodo() {
       this.$emit("updateContent", this.content);
+      this.content = "";
     },
   },
 };
