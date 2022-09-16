@@ -1,9 +1,10 @@
+<!-- Data Read, Update, Delete -->
 <template>
   <div class="main">
     <Header />
     <div class="todolist">
-      <InputComponent :todo-list="todoList" @updateTodo="todoUpdate" />
-      <List />
+      <InputComponent @updateContent="todoUpdate" />
+      <List :todoList="todoList" @deleteTodo="delTodo" />
     </div>
   </div>
 </template>
@@ -12,31 +13,35 @@
 import Header from "./components/Header.vue";
 import InputComponent from "./components/TodoInput.vue";
 import List from "./components/TodoList.vue";
+
 export default {
   name: "App",
+
   components: {
     Header,
     InputComponent,
     List,
   },
-  mounted() {
-    if (localStorage.getItem("mytodos") != null) {
-      const locasSTG = localStorage.getItem("mytodos");
-      const parserList = JSON.parse(locasSTG);
-      this.todoList = parserList;
-    }
-  },
   data() {
     return {
       todoList: [],
-      updateContent: "",
       visible: false,
     };
   },
+  mounted() {
+    if (localStorage.getItem != null) {
+      const localItem = localStorage.getItem("mytodos");
+      this.todoList = [...JSON.parse(localItem)];
+    }
+  },
   methods: {
-    todoUpdate(values) {
-      console.log(values);
-      this.todoList = values;
+    todoUpdate(value) {
+      this.todoList.push(value);
+      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+    },
+    delTodo(index) {
+      this.todoList.splice(index, 1);
+      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
     },
   },
 };
