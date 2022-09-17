@@ -3,7 +3,7 @@
   <div class="main">
     <Header />
     <div class="todolist">
-      <InputComponent @updateContent="todoUpdate" />
+      <InputComponent @pushContent="pushTodo" />
       <List
         :todoList="todoList"
         @deleteTodo="delTodo"
@@ -30,6 +30,9 @@ export default {
     return {
       todoList: [],
       visible: false,
+      setStorage: () => {
+        localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+      },
     };
   },
   mounted() {
@@ -40,17 +43,17 @@ export default {
   },
   methods: {
     updateTodo(value) {
-      const [index, content] = [...value];
+      const [index, content] = value;
       this.todoList.splice(index, 1, content);
-      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+      this.setStorage();
     },
-    todoUpdate(value) {
+    pushTodo(value) {
       this.todoList.push(value);
-      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+      this.setStorage();
     },
     delTodo(index) {
       this.todoList.splice(index, 1);
-      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+      this.setStorage();
     },
   },
 };

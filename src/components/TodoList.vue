@@ -3,27 +3,27 @@
   <div class="todoContainer" v-for="(data, index) in todoList" :key="index">
     <textarea
       type="text"
-      v-if="this.selectTodo === index ? true : false"
+      v-if="this.isView(this.currentItem, index)"
       :value="data"
       @input="inputdata($event)"
     />
-    <p v-if="this.selectTodo === index ? false : true" class="list">
+    <p v-if="!this.isView(this.currentItem, index)" class="list">
       {{ data }}
     </p>
 
     <button
-      v-if="this.selectTodo === index ? true : false"
-      @click="submitTodo(index)"
+      v-if="this.isView(this.currentItem, index)"
+      @click="submitItem(index)"
     >
-      sumit
+      CONFIRM
     </button>
     <button
-      v-if="this.selectTodo === index ? false : true"
-      @click="updateTodo(index)"
+      v-if="!this.isView(this.currentItem, index)"
+      @click="selectItem(index)"
     >
-      update
+      EDIT
     </button>
-    <button @click="deleteTodo(index)">delete</button>
+    <button @click="deleteItem(index)">DELETE</button>
   </div>
 </template>
 
@@ -38,23 +38,29 @@ export default {
   },
   data() {
     return {
-      selectTodo: null,
+      currentItem: null,
       content: "",
+      isView: (curIndex, index) => {
+        if (curIndex === index) {
+          return true;
+        } else return false;
+      },
     };
   },
   methods: {
-    deleteTodo(index) {
+    deleteItem(index) {
       this.$emit("deleteTodo", index);
     },
-    updateTodo(index) {
-      this.selectTodo = index;
+    selectItem(index) {
+      this.currentItem = index;
+      this.content = this.todoList[index];
     },
-    inputdata(value) {
-      this.content = value.target.value;
+    inputdata(event) {
+      this.content = event.target.value;
     },
-    submitTodo(index) {
+    submitItem(index) {
       this.$emit("updateTodo", [index, this.content]);
-      this.selectTodo = null;
+      this.currentItem = null;
     },
   },
 };
@@ -72,7 +78,7 @@ export default {
   padding: 1rem;
   margin: 0.5rem 0;
   width: 100%;
-  min-width: 12rem;
+  min-width: 14rem;
 
   border-radius: 1rem;
   box-shadow: 2px 4px 3px 0px;

@@ -8,7 +8,7 @@
       v-model="content"
     />
 
-    <button type="submit" @click.prevent="addTodo">add todolist</button>
+    <button type="submit" @click.prevent="todoUpload">add todolist</button>
   </form>
 </template>
 
@@ -21,8 +21,8 @@ export default {
     };
   },
   methods: {
-    addTodo() {
-      this.$emit("updateContent", this.content);
+    todoUpload() {
+      this.$emit("pushContent", this.content);
       this.content = "";
     },
   },
@@ -37,7 +37,7 @@ export default {
   border-radius: 1rem;
   box-shadow: 2px 4px 3px 0px;
   width: 100%;
-  min-width: 12rem;
+  min-width: 14rem;
   height: 5rem;
   padding: 1rem;
   margin: 0 0 1rem 0;
