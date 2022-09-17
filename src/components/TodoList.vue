@@ -40,14 +40,14 @@ export default {
     return {
       currentItem: null,
       content: "",
-      isView: (curIndex, index) => {
-        if (curIndex === index) {
-          return true;
-        } else return false;
-      },
     };
   },
   methods: {
+    isView: (curIndex, index) => {
+      if (curIndex === index) {
+        return true;
+      } else return false;
+    },
     deleteItem(index) {
       this.$emit("deleteTodo", index);
     },

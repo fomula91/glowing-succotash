@@ -3,24 +3,22 @@
   <div class="main">
     <Header />
     <div class="todolist">
-      <InputComponent @pushContent="pushTodo" />
+      <InputComponent @push-content="pushTodo" />
       <List
-        :todoList="todoList"
-        @deleteTodo="delTodo"
-        @updateTodo="updateTodo"
+        :todo-list="todoList"
+        @delete-todo="delTodo"
+        @update-todo="updateTodo"
       />
     </div>
   </div>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import InputComponent from "./components/TodoInput.vue";
-import List from "./components/TodoList.vue";
+import Header from "/src/components/Header.vue";
+import InputComponent from "/src/components/TodoInput.vue";
+import List from "/src/components/TodoList.vue";
 
 export default {
-  name: "App",
-
   components: {
     Header,
     InputComponent,
@@ -30,9 +28,6 @@ export default {
     return {
       todoList: [],
       visible: false,
-      setStorage: () => {
-        localStorage.setItem("mytodos", JSON.stringify(this.todoList));
-      },
     };
   },
   mounted() {
@@ -42,6 +37,9 @@ export default {
     }
   },
   methods: {
+    setStorage: () => {
+      localStorage.setItem("mytodos", JSON.stringify(this.todoList));
+    },
     updateTodo(value) {
       const [index, content] = value;
       this.todoList.splice(index, 1, content);
