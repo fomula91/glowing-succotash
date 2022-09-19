@@ -2,8 +2,8 @@
 <template>
   <div class="main">
     <Header />
+    <InputComponent class="inputFleid" @push-content="pushTodo" />
     <div class="todolist">
-      <InputComponent @push-content="pushTodo" />
       <List
         :todo-list="todoList"
         @delete-todo="delTodo"
@@ -33,16 +33,17 @@ export default {
   mounted() {
     if (localStorage.getItem != null) {
       const localItem = localStorage.getItem("mytodos");
+      console.log(JSON.parse(localItem));
       this.todoList = [...JSON.parse(localItem)];
     }
   },
   methods: {
-    setStorage: () => {
+    setStorage() {
       localStorage.setItem("mytodos", JSON.stringify(this.todoList));
     },
     updateTodo(value) {
       const [index, content] = value;
-      this.todoList.splice(index, 1, content);
+      this.todoList[index].content = content;
       this.setStorage();
     },
     pushTodo(value) {
@@ -64,6 +65,7 @@ export default {
 }
 .main {
   background: url("./assets/bg.svg");
+  background-size: cover;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -76,10 +78,13 @@ export default {
   position: relative;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
+  width: 46rem;
   height: 100vh;
-  padding: 0 35rem;
   align-items: center;
+  overflow: auto;
+}
+.inputFleid {
+  width: 46rem;
 }
 
 body {

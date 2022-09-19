@@ -22,8 +22,20 @@ export default {
   },
   methods: {
     todoUpload() {
-      this.$emit("pushContent", this.content);
-      this.content = "";
+      if (this.content.trim("") == "") {
+        alert("값을 넣어주세요");
+      } else {
+        const time = new Date().toString().slice(0, 24);
+        const getTime = new Date().getTime();
+        const value = {
+          time: time,
+          content: this.content,
+          index: getTime,
+        };
+        console.log(value);
+        this.$emit("pushContent", value);
+        this.content = "";
+      }
     },
   },
 };
@@ -37,7 +49,7 @@ export default {
   border-radius: 1rem;
   box-shadow: 2px 4px 3px 0px;
   width: 100%;
-  min-width: 14rem;
+  min-width: 20rem;
   height: 5rem;
   padding: 1rem;
   margin: 0 0 1rem 0;

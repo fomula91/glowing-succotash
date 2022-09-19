@@ -1,15 +1,22 @@
 <!-- data Read -->
 <template>
-  <div class="todoContainer" v-for="(data, index) in todoList" :key="index">
-    <textarea
-      type="text"
-      v-if="this.isView(this.currentItem, index)"
-      :value="data"
-      @input="inputdata($event)"
-    />
-    <p v-if="!this.isView(this.currentItem, index)" class="list">
-      {{ data }}
-    </p>
+  <div
+    class="todoContainer"
+    v-for="(data, index) in todoList"
+    :key="data.index"
+  >
+    <div class="todoText">
+      <textarea
+        type="text"
+        v-if="this.isView(this.currentItem, index)"
+        :value="data.content"
+        @input="inputdata($event)"
+      />
+      <p v-if="!this.isView(this.currentItem, index)" class="list">
+        {{ data.content }}
+      </p>
+      {{ data.time }}
+    </div>
 
     <button
       v-if="this.isView(this.currentItem, index)"
@@ -33,7 +40,7 @@ export default {
 
   props: {
     todoList: {
-      type: Array,
+      type: Object,
     },
   },
   data() {
@@ -78,7 +85,7 @@ export default {
   padding: 1rem;
   margin: 0.5rem 0;
   width: 100%;
-  min-width: 14rem;
+  min-width: 20rem;
 
   border-radius: 1rem;
   box-shadow: 2px 4px 3px 0px;
@@ -86,6 +93,10 @@ export default {
 
 .list {
   width: 100%;
+}
+
+.todoText {
+  flex: auto;
 }
 
 li {
